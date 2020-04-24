@@ -1,0 +1,51 @@
+server:
+  port: 8081
+
+# ActuatorWeb访问端口
+management:
+  server:
+    port: 18081
+  endpoints:
+    jmx:
+      exposure:
+        include: '*'
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+
+spring:
+  application:
+    name: user-server
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        service-name: user-service
+  datasource:
+    hikari:
+      jdbc-url: jdbc:mysql://192.168.3.16:9527/txlcn-demo?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2b8&nullCatalogMeansCurrent=true&useSSL=false
+      username: root
+      password: 123456
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      auto-commit: false
+      minimum-idle: 5
+      maximum-pool-size: 20
+      idle-timeout: 3600000
+      pool-name: SpringBootHikariCP
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
+
+#指定我们的mapper.xml位置
+mybatis:
+  mapper-locations: classpath:mapper/**
+  #entity.class 指定我们实体类所在包位置
+  type-aliases-package: com.leinuoa.userserver.model
+
+
+tx-lcn:
+  client:
+    manager-address: 127.0.0.1:8070
